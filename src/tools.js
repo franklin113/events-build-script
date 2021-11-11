@@ -5,8 +5,9 @@ const cheerio = require('cheerio');
 
 function processArgs(args){
 
-  if (args.length < 3 ){
+  if (!args || args.length < 3 ){
     console.error("Invalid arguments: Must provide config file")
+    return
   }
   const configPath = process.argv[2]
   return configPath
@@ -61,9 +62,20 @@ function urlRaplacer(urlMappings, $){
   }
 }
 
+function jsFileReplacer(js_sources, $){
+  for (let js of js_sources){
+    const {id, src} = js;
+    console.log('js',id)
+    let jsFile = fs.readFileSync(src,'utf8');
+    jsFile = "\n\n//#region----- start " + src + " -----\n\n" + jsFile
+    jsFile+= "\n\n//endregion------- end " + src + " ------\n\n"
+    $("#" + id).removeAttr('src').html(jsFile)
+  }
+}
+
 function formatHtml( config){
   const parsedConfig = JSON.parse(fs.readFileSync(config, 'utf8'));
-  const { html_sources, url_mapping, output } = parsedConfig;
+  const { html_sources, url_mapping, output, js_sources } = parsedConfig;
   console.log(html_sources)
   const htmlString = mergeFiles({files: html_sources})
 
@@ -72,7 +84,7 @@ function formatHtml( config){
 
   // * swap in production urls
   urlRaplacer(url_mapping, $)
-
+  jsFileReplacer(js_sources, $)
   // * render the html
   const renderedHtml = $('body').html()
 
@@ -81,11 +93,14 @@ function formatHtml( config){
 
 }
 
-const args = processArgs(process.argv)
-
-const outputHTML = formatHtml(args)
 
 function writeFile(output, renderedHtml) {
   fs.writeFileSync(output, renderedHtml.trim());
 }
 
+module.exports.urlRaplacer = urlRaplacer
+module.exports.formatHtml = formatHtml
+module.exports.writeFile = writeFile;
+module.exports.writeFile = writeFile;
+module.exports.processArgs = processArgs;
+module.exports.mergeFiles = mergeFiles;

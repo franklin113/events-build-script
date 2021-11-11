@@ -1,0 +1,25 @@
+{
+  "html_sources" : ["samples/sample_input_1.html"],
+  "js_sources" : [
+    {
+    "id" : "sample-component",
+    "src": "samples/sample_js_component.js"
+    },
+    {
+      "id" : "sample-component2",
+      "src": "samples/sample_js_component_2.js"
+      }
+  ],
+  "output" : "samples/sample_outputs/sample_output.html",
+  "url_mapping" : [
+    {
+      "id" : "sample-script",
+      "src" : "./samples/sample_output_script.js"
+    },
+    {
+      "id" : "sample-css",
+      "src" : "./samples/sample_output_css.css"
+    }
+  ]
+}
+
