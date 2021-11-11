@@ -13,7 +13,7 @@ function processArgs(args){
 }
 
 
-function mergeFiles({files, output_filename}){
+function mergeFiles({files}){
   console.log('files: ', files)
   let finalText = "";
 
@@ -27,12 +27,7 @@ function mergeFiles({files, output_filename}){
       return
     }
   }
-  try {
-    const data = fs.writeFileSync(output_filename, finalText)
-    //file written successfully
-  } catch (err) {
-    console.error("\x1b[31m", err)
-  }
+  return finalText
 }
 
 function urlRaplacer(urlMappings, $){
@@ -40,7 +35,7 @@ function urlRaplacer(urlMappings, $){
     const { id, src } = i;
     const $el = $('#'+ id.toString());
     console.log('before type')
-    const elType = $($el).prev().prop('nodeName');
+    const elType = $($el).prop('nodeName');
     console.log('el type: ', elType, typeof elType)
 
     let attr;
@@ -68,8 +63,9 @@ function urlRaplacer(urlMappings, $){
 
 function formatHtml( config){
   const parsedConfig = JSON.parse(fs.readFileSync(config, 'utf8'));
-  const { html_source, url_mapping, output } = parsedConfig
-  const htmlString = fs.readFileSync(html_source, 'utf8');
+  const { html_sources, url_mapping, output } = parsedConfig;
+  console.log(html_sources)
+  const htmlString = mergeFiles({files: html_sources})
 
   // * create jquery type object of the whole fake dom
   const $ = cheerio.load(htmlString);
@@ -81,11 +77,15 @@ function formatHtml( config){
   const renderedHtml = $('body').html()
 
   // * write rendered html to file specified in config
-  fs.writeFileSync(output, renderedHtml.trim())
+  writeFile(output, renderedHtml);
 
 }
 
 const args = processArgs(process.argv)
 
 const outputHTML = formatHtml(args)
+
+function writeFile(output, renderedHtml) {
+  fs.writeFileSync(output, renderedHtml.trim());
+}
 
