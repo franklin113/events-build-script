@@ -8,11 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-<<<<<<< HEAD
-    "build-sample": "node ./src/build-script.js ./samples/sample_config.json"
-=======
     "build-sample": "node ./src/build-script.js ./samples/sample1/sample_config.json"
->>>>>>> 3eb00388008b295249a278206a6a73fc02913793
   },
   "repository": {
     "type": "git",
@@ -28,7 +24,11 @@
     "cheerio": "^1.0.0-rc.10"
   },
   "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.3.1",
+    "prettier": "^2.4.1",
     "rewire": "^5.0.0",
     "snowpack": "^3.8.8"
   }

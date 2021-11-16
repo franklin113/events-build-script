@@ -1,4 +1,4 @@
-const tools = require('./tools.js')
-const args = tools.processArgs(process.argv)
+const tools = require("./tools.js");
+const args = tools.processArgs(process.argv);
 
-tools.formatHtml(args)
+tools.formatHtml(args);
