@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-sample" : "node ./src/build-script.js ./samples/sample_config.json"
+    "build-sample": "node ./src/build-script.js ./samples/sample_config.json"
   },
   "repository": {
     "type": "git",
