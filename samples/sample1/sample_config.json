@@ -8,14 +8,14 @@
     {
       "id" : "sample-component2",
       "src": "samples/sample1/sample_js_component_2.js"
+      },
+      {
+        "id" : "sample-css",
+        "src": "samples/sample1/sample_input_1.css"
       }
+      
   ],
-  "css_sources": [
-    {
-      "id" : "sample-component",
-      "src": "samples/sample1/sample_js_component.js"
-    }
-  ],
+
   "output" : "samples/sample1/sample_output.html",
   "url_mapping" : [
     {

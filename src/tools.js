@@ -65,20 +65,30 @@ function jsFileReplacer(js_sources, $) {
     const { id, src } = js;
     console.log("js", id);
     let jsFile = fs.readFileSync(src, "utf8");
-    jsFile = "\n\n//#region----- start " + src + " -----\n\n" + jsFile;
-    jsFile += "\n\n//endregion------- end " + src + " ------\n\n";
+    let startRegion = "#region----- start " + src + " -----";
+    let endRegion = "#endregion------- end " + src + " ------";
+    // jsFile = "\n\n//#region----- start " + src + " -----\n\n" + jsFile;
+    // jsFile += "\n\n//endregion------- end " + src + " ------\n\n";
 
     const $el = $("#" + id);
     const elType = $el.prop("nodeName");
+    console.log($el, " is a ", elType);
+
     switch (elType) {
       case "SCRIPT":
+        startRegion = "\n\n//" + startRegion + "\n\n";
+        endRegion = "\n\n//" + endRegion + "\n\n";
+        jsFile = startRegion + jsFile + endRegion;
         $el.removeAttr("src").html(jsFile);
 
         break;
 
       case "LINK":
-        $el.after(jsFile);
-        $el.detach();
+        startRegion = "/*" + startRegion + "*/\n\n";
+        endRegion = "\n\n/*" + endRegion + "*/\n\n";
+        jsFile = startRegion + jsFile + endRegion;
+        $el.after($(`<style>`).html(jsFile));
+        $el.remove();
         // $el.("src").html(jsFile);
         break;
 
