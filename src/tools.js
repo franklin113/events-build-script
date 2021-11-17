@@ -72,7 +72,6 @@ function jsFileReplacer(js_sources, $) {
 
     const $el = $("#" + id);
     const elType = $el.prop("nodeName");
-    console.log($el, " is a ", elType);
 
     switch (elType) {
       case "SCRIPT":
